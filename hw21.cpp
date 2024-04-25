@@ -16,12 +16,14 @@
 // 
 // Task: Write a program that will produce all the untouchable numbers less than 1000.
 
+#include <algorithm>
 #include <array>
 #include <cassert>
 #include <iostream>
 #include <numeric>
 #include <ranges>
 #include <set>
+#include <vector>
 
 using namespace std;
 
@@ -69,37 +71,33 @@ int main()
     test("E", proper_divisors(7), set{ 1 });
     test("F", proper_divisors(12), set{ 1, 2, 3, 4, 6 });
 
-    constexpr size_t max { 50 };
+    constexpr size_t max { 10000 };
+
+    set<int> touchable;
+    set<int> all_numbers;
+
     array<int, max> x{};
     for (auto i : views::iota(1u, max))
     {
         const auto d = proper_divisors(static_cast<int>(i));
         const auto sum = accumulate(begin(d), end(d), 0);
         x[i] = sum;
+        touchable.insert(sum);
+        all_numbers.insert(static_cast<int>(i));
     }
 
-    for (const auto j : views::iota(2u, max))
+    vector<int> untouchable;
+    ranges::set_difference(all_numbers, touchable, back_inserter(untouchable));
+
+    //for (const auto j : views::iota(2u, max))
+    //{
+    //    cout << j << " : " << x[j] << '\n';
+    //}
+
+    for (const auto u : untouchable)
     {
-        cout << j << " : " << x[j] << '\n';
+        cout << u << " is untouchable\n";
     }
 
-#if 0
-    for (const auto number : views::iota(2, static_cast<int>(max)))
-    {
-        bool untouchable{true};
-        for (const auto j : views::iota(2u, max))
-        {
-            if (number == x[j])
-            {
-                untouchable = false;
-                break;
-            }            
-        }
-        if (untouchable)
-        {
-            cout << number << " is untouchable\n";
-        }
-    }
-#endif    
     return 0;
 }
