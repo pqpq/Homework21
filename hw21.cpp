@@ -58,5 +58,7 @@ int main()
     test("B", divisors(2), set{ 1, 2 });
     test("C", divisors(4), set{ 1, 2, 4 });
     test("D", divisors(6), set{ 1, 2, 3, 6 });
+    test("E", divisors(7), set{ 1, 7 });
+    test("F", divisors(12), set{ 1, 2, 3, 4, 6, 12 });
     return 0;
 }
