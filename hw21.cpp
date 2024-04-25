@@ -18,6 +18,7 @@
 
 
 #include <cassert>
+//#include <cmath>
 #include <iostream>
 #include <vector>
 
@@ -35,7 +36,25 @@ void test(string_view test, const T&&a, const T&&b)
 vector<int> divisors(int i)
 {
     vector<int> result = { 1 };
-    if (i > 1) result.push_back(i);
+
+    //for (auto n = 2; n <= sqrt(i); ++n)
+    for (auto n = 2; n <= i/2; ++n)
+    {
+        if (i % n == 0)
+        {
+            result.push_back(n);
+        }
+    }
+
+    if (i > 1)
+    {
+        result.push_back(i);
+    }
+
+    cout << i << " : ";
+    for (const auto& x : result) cout << x << ", ";
+    cout << '\n';
+
     return result;
 }
 
@@ -45,5 +64,6 @@ int main()
     test("A", divisors(1), vector{ 1 });
     test("B", divisors(2), vector{ 1, 2 });
     test("C", divisors(4), vector{ 1, 2, 4 });
+    test("D", divisors(6), vector{ 1, 2, 3, 6 });
     return 0;
 }
