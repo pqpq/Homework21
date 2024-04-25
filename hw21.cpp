@@ -55,13 +55,6 @@ set<int> proper_divisors(int i)
     return result;
 }
 
-bool untouchable(int i)
-{
-    const auto d = proper_divisors(i);
-    const auto sum = accumulate(begin(d), end(d), 0);
-    return !(i % 2);
-}
-
 int main()
 {
     test("A", proper_divisors(1), set{ 1 });
@@ -71,19 +64,20 @@ int main()
     test("E", proper_divisors(7), set{ 1 });
     test("F", proper_divisors(12), set{ 1, 2, 3, 4, 6 });
 
-    constexpr size_t max { 10000 };
+    constexpr int max { 1000 };
+
+    set<int> all_numbers;
+    for (auto i : views::iota(1, max))
+    {
+        all_numbers.insert(i);
+    }
 
     set<int> touchable;
-    set<int> all_numbers;
-
-    array<int, max> x{};
-    for (auto i : views::iota(1u, max))
+    for (auto i : views::iota(1, max * max))
     {
-        const auto d = proper_divisors(static_cast<int>(i));
+        const auto d = proper_divisors(i);
         const auto sum = accumulate(begin(d), end(d), 0);
-        x[i] = sum;
         touchable.insert(sum);
-        all_numbers.insert(static_cast<int>(i));
     }
 
     vector<int> untouchable;
