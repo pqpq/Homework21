@@ -18,9 +18,8 @@
 
 
 #include <cassert>
-//#include <cmath>
 #include <iostream>
-#include <vector>
+#include <set>
 
 using namespace std;
 
@@ -33,22 +32,16 @@ void test(string_view test, const T&&a, const T&&b)
         cerr << "Test " << test << " FAILED!\n";
 }
 
-vector<int> divisors(int i)
+set<int> divisors(int i)
 {
-    vector<int> result = { 1 };
+    set<int> result = { 1, i };
 
-    //for (auto n = 2; n <= sqrt(i); ++n)
     for (auto n = 2; n <= i/2; ++n)
     {
         if (i % n == 0)
         {
-            result.push_back(n);
+            result.insert(n);
         }
-    }
-
-    if (i > 1)
-    {
-        result.push_back(i);
     }
 
     cout << i << " : ";
@@ -61,9 +54,9 @@ vector<int> divisors(int i)
 
 int main()
 {
-    test("A", divisors(1), vector{ 1 });
-    test("B", divisors(2), vector{ 1, 2 });
-    test("C", divisors(4), vector{ 1, 2, 4 });
-    test("D", divisors(6), vector{ 1, 2, 3, 6 });
+    test("A", divisors(1), set{ 1 });
+    test("B", divisors(2), set{ 1, 2 });
+    test("C", divisors(4), set{ 1, 2, 4 });
+    test("D", divisors(6), set{ 1, 2, 3, 6 });
     return 0;
 }
