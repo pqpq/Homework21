@@ -16,9 +16,11 @@
 // 
 // Task: Write a program that will produce all the untouchable numbers less than 1000.
 
-
+#include <array>
 #include <cassert>
 #include <iostream>
+#include <numeric>
+#include <ranges>
 #include <set>
 
 using namespace std;
@@ -32,9 +34,9 @@ void test(string_view test, const T&&a, const T&&b)
         cerr << "Test " << test << " FAILED!\n";
 }
 
-set<int> divisors(int i)
+set<int> proper_divisors(int i)
 {
-    set<int> result = { 1, i };
+    set<int> result = { 1 };
 
     for (auto n = 2; n <= i/2; ++n)
     {
@@ -44,21 +46,60 @@ set<int> divisors(int i)
         }
     }
 
-    cout << i << " : ";
-    for (const auto& x : result) cout << x << ", ";
-    cout << '\n';
+    //cout << i << " : ";
+    //for (const auto& x : result) cout << x << ", ";
+    //cout << '\n';
 
     return result;
 }
 
+bool untouchable(int i)
+{
+    const auto d = proper_divisors(i);
+    const auto sum = accumulate(begin(d), end(d), 0);
+    return !(i % 2);
+}
 
 int main()
 {
-    test("A", divisors(1), set{ 1 });
-    test("B", divisors(2), set{ 1, 2 });
-    test("C", divisors(4), set{ 1, 2, 4 });
-    test("D", divisors(6), set{ 1, 2, 3, 6 });
-    test("E", divisors(7), set{ 1, 7 });
-    test("F", divisors(12), set{ 1, 2, 3, 4, 6, 12 });
+    test("A", proper_divisors(1), set{ 1 });
+    test("B", proper_divisors(2), set{ 1 });
+    test("C", proper_divisors(4), set{ 1, 2 });
+    test("D", proper_divisors(6), set{ 1, 2, 3 });
+    test("E", proper_divisors(7), set{ 1 });
+    test("F", proper_divisors(12), set{ 1, 2, 3, 4, 6 });
+
+    constexpr size_t max { 50 };
+    array<int, max> x{};
+    for (auto i : views::iota(1u, max))
+    {
+        const auto d = proper_divisors(static_cast<int>(i));
+        const auto sum = accumulate(begin(d), end(d), 0);
+        x[i] = sum;
+    }
+
+    for (const auto j : views::iota(2u, max))
+    {
+        cout << j << " : " << x[j] << '\n';
+    }
+
+#if 0
+    for (const auto number : views::iota(2, static_cast<int>(max)))
+    {
+        bool untouchable{true};
+        for (const auto j : views::iota(2u, max))
+        {
+            if (number == x[j])
+            {
+                untouchable = false;
+                break;
+            }            
+        }
+        if (untouchable)
+        {
+            cout << number << " is untouchable\n";
+        }
+    }
+#endif    
     return 0;
 }
