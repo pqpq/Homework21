@@ -66,9 +66,6 @@ int touchable(int i)
     return accumulate(begin(d), end(d), 0);
 }
 
-/// For each prime (from 2), check up to 1000 x p
-/// All square numbers up to million
-/// All numbers up to million / root 2  707107
 
 int main()
 {
@@ -82,37 +79,37 @@ int main()
 
     constexpr int max { 1000 };
 
-    const auto all_numbers = integers_up_to(max);
-
     set<int> touchables;
+
+    // For each prime (from 2), check up to 1000 x p
+    // <too hard!>
 
     // Check all squares up to max^2
     ranges::for_each(views::iota(1, max), [&](auto n){ touchables.insert(touchable(n * n)); });
 
-    // Above 250,000 the only way sum of divisors can be less than 1000 is if its a square number (handled above) or prime.
-    // If there are more than 2 divisors, they will sum to more than 1000 (e.g. 500 and 501)
+    // Above 250,000 the only way the sum of divisors can be less than 1000 is if its a square number (handled above) or prime.
+    // If there are more than 2 divisors, they will sum to more than 1000.
+    // e.g. 249,999 has divisors 1, 499, 501 (at least) which sum to 1001.
     ranges::for_each(views::iota(1, (max*max) / 4), [&](auto n){ touchables.insert(touchable(n)); });
 
+    const auto all_numbers = integers_up_to(max);
     vector<int> untouchables;
     ranges::set_difference(all_numbers, touchables, back_inserter(untouchables));
 
     test("X", untouchables, vector{
-        2, 5, 52, 88, 96, 120, 124, 146, 162, 188, 
-        206, 210, 216, 238, 246, 248, 262, 268, 276, 288, 290, 292, 
-        304, 306, 322, 324, 326, 336, 342, 372, 
-        406, 408, 426, 430, 448, 472, 474, 498, 
-        516, 518, 520, 530, 540, 552, 556, 562, 576, 584, 
-        612, 624, 626, 628, 658, 668, 670, 
-        708, 714, 718, 726, 732, 738, 748, 750, 756, 766, 768, 782, 784, 792, 
-        802, 804, 818, 836, 848, 852, 872, 892, 894, 896, 898, 
+        2, 5, 52, 88, 96, 120, 124, 146, 162, 188,
+        206, 210, 216, 238, 246, 248, 262, 268, 276, 288, 290, 292,
+        304, 306, 322, 324, 326, 336, 342, 372,
+        406, 408, 426, 430, 448, 472, 474, 498,
+        516, 518, 520, 530, 540, 552, 556, 562, 576, 584,
+        612, 624, 626, 628, 658, 668, 670,
+        708, 714, 718, 726, 732, 738, 748, 750, 756, 766, 768, 782, 784, 792,
+        802, 804, 818, 836, 848, 852, 872, 892, 894, 896, 898,
         902, 926, 934, 936, 964, 966, 976, 982, 996
      });
 
     cout << "Untouchable : ";
-    for (const auto u : untouchables)
-    {
-        cout << u << ", ";
-    }
+    ranges::for_each(untouchables, [&](auto u){ cout << u << ", "; });
     cout << '\n';
 
     return 0;
