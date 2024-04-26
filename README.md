@@ -42,8 +42,8 @@ I started by TDDing the `proper_divisors()` function, and I have left the tests 
 Without this function being known to be correct, the whole thing is just building on sand.
 
 After some experimentation it was obvious that you need to calculate a much larger set of touchable numbers than the range you're investigating.
-I started by calculating up to 1000, and the list was far more populous than the one in the [Wikipedia article](https://en.wikipedia.org/wiki/Untouchable_number).
-As I added more and more the results settled towards the correct answer, and it seemed (empirically) that we needed to calculate 1 million touchable numbers for the first 1000 untouchable to be correct.
+I started by calculating up to 1000, and the resulting list of untouchables was far more populous than the one in the [Wikipedia article](https://en.wikipedia.org/wiki/Untouchable_number).
+As I added more and more touchable numbers the results settled towards the correct answer, and it seemed (empirically) that we needed to calculate 1 million touchable numbers for the first 1000 untouchable to be correct.
 After I showed this to my son (currently finishing maths A-levels) he explained why. 
 1 million is square, and its divisors therefore include 1 and 1000, which sum to 1001. 
 If there are any other divisors they will only add to the sum, making it more than 1001.
