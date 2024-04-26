@@ -50,4 +50,5 @@ If there are any other divisors they will only add to the sum, making it more th
 We are only looking for untouchables up to 1000, so at this point we can stop looking.
 Thinking this way reveals some other optimisations:
 <br>
-*(more to come!)*
+- `proper_divisors()` only needs to search up to the square root of the number. Divisors come in pairs so once you have found one you can calculate the other immediately.
+- *(more to come!)*
