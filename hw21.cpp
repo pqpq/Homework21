@@ -65,7 +65,8 @@ int main()
     test("C", proper_divisors(4), set{ 1, 2 });
     test("D", proper_divisors(6), set{ 1, 2, 3 });
     test("E", proper_divisors(7), set{ 1 });
-    test("F", proper_divisors(12), set{ 1, 2, 3, 4, 6 });
+    test("F", proper_divisors(9), set{ 1, 3 });
+    test("G", proper_divisors(12), set{ 1, 2, 3, 4, 6 });
 
     constexpr int max { 1000 };
 
