@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
+#include <cmath>
 #include <iostream>
 #include <numeric>
 #include <ranges>
@@ -40,11 +41,13 @@ set<int> proper_divisors(int i)
 {
     set<int> result = { 1 };
 
-    for (auto n = 2; n <= i/2; ++n)
+    const auto limit{sqrt(i)};
+    for (auto n = 2; n <= limit; ++n)
     {
         if (i % n == 0)
         {
             result.insert(n);
+            result.insert(i/n);
         }
     }
 
@@ -88,10 +91,12 @@ int main()
     //    cout << j << " : " << x[j] << '\n';
     //}
 
+    cout << "Untouchable : ";
     for (const auto u : untouchable)
     {
-        cout << u << " is untouchable\n";
+        cout << u << ", ";
     }
+    cout << '\n';
 
     return 0;
 }
