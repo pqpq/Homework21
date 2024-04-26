@@ -30,18 +30,18 @@ using namespace std;
 template<typename T>
 void test(string_view test, const T&a, const T&b)
 {
+    cout <<  "Test " << test;
     if (a == b)
-        cout <<  "Test " << test << " passed\n";
+        cout << " passed\n";
     else
-        cerr << "Test " << test << " FAILED!\n";
+        cerr << " FAILED!\n";
 }
 
 set<int> proper_divisors(int i)
 {
     set<int> result = { 1 };
 
-    const auto limit{sqrt(i)};
-    for (auto n = 2; n <= limit; ++n)
+    for (auto n = 2; n <= sqrt(i); ++n)
     {
         if (i % n == 0)
         {
@@ -66,19 +66,8 @@ int touchable(int i)
     return accumulate(begin(d), end(d), 0);
 }
 
-
-int main()
+vector<int> untouchables_up_to(int max)
 {
-    test("A", proper_divisors(1), set{ 1 });
-    test("B", proper_divisors(2), set{ 1 });
-    test("C", proper_divisors(4), set{ 1, 2 });
-    test("D", proper_divisors(6), set{ 1, 2, 3 });
-    test("E", proper_divisors(7), set{ 1 });
-    test("F", proper_divisors(9), set{ 1, 3 });
-    test("G", proper_divisors(12), set{ 1, 2, 3, 4, 6 });
-
-    constexpr int max { 1000 };
-
     set<int> touchables;
 
     // For each prime (from 2), check up to 1000 x p
@@ -95,6 +84,20 @@ int main()
     const auto all_numbers = integers_up_to(max);
     vector<int> untouchables;
     ranges::set_difference(all_numbers, touchables, back_inserter(untouchables));
+    return untouchables;
+}
+
+int main()
+{
+    test("A", proper_divisors(1), set{ 1 });
+    test("B", proper_divisors(2), set{ 1 });
+    test("C", proper_divisors(4), set{ 1, 2 });
+    test("D", proper_divisors(6), set{ 1, 2, 3 });
+    test("E", proper_divisors(7), set{ 1 });
+    test("F", proper_divisors(9), set{ 1, 3 });
+    test("G", proper_divisors(12), set{ 1, 2, 3, 4, 6 });
+
+    const auto untouchables = untouchables_up_to(1000);
 
     test("X", untouchables, vector{
         2, 5, 52, 88, 96, 120, 124, 146, 162, 188,
