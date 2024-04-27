@@ -28,9 +28,9 @@
 using namespace std;
 
 template<typename T>
-void test(string_view test, const T&a, const T&b)
+void test(string_view test_name, const T& a, const T& b)
 {
-    cout <<  "Test " << test;
+    cout <<  "Test " << test_name;
     if (a == b)
         cout << " passed\n";
     else
@@ -70,7 +70,7 @@ vector<int> untouchables_up_to(int max)
 {
     set<int> touchables;
 
-    // For each prime (from 2), check up to 1000 x p
+    // For each prime (from 2), check up to max x p
     // <too hard!>
 
     // Check all squares up to max^2
@@ -79,7 +79,7 @@ vector<int> untouchables_up_to(int max)
     // Above 250,000 the only way the sum of divisors can be less than 1000 is if its a square number (handled above) or prime.
     // If there are more than 2 divisors, they will sum to more than 1000.
     // e.g. 249,999 has divisors 1, 499, 501 (at least) which sum to 1001.
-    ranges::for_each(views::iota(1, (max*max) / 4), [&](auto n){ touchables.insert(touchable(n)); });
+    ranges::for_each(views::iota(1, (max * max) / 4), [&](auto n){ touchables.insert(touchable(n)); });
 
     const auto all_numbers = integers_up_to(max);
     vector<int> untouchables;
@@ -100,7 +100,8 @@ int main()
     const auto untouchables = untouchables_up_to(1000);
 
     test("X", untouchables, vector{
-        2, 5, 52, 88, 96, 120, 124, 146, 162, 188,
+        2, 5, 52, 88, 96,
+        120, 124, 146, 162, 188,
         206, 210, 216, 238, 246, 248, 262, 268, 276, 288, 290, 292,
         304, 306, 322, 324, 326, 336, 342, 372,
         406, 408, 426, 430, 448, 472, 474, 498,
